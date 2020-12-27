@@ -69,7 +69,7 @@ export async function getStaticPaths() {
         slug: article.slug,
       },
     })),
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -77,6 +77,7 @@ export async function getStaticProps({ params }) {
   const articles = await fetchAPI(
     `/articles?slug=${params.slug}&status=published`
   );
+
   const categories = await fetchAPI("/categories");
 
   return {
