@@ -77,7 +77,7 @@ export async function getStaticProps({ params }) {
   const articles = await fetchAPI(
     `/articles?slug=${params.slug}&status=published`
   );
-  console.log("SLUG " + params.slug + " ARTICLES " + JSON.stringify(articles))
+  console.log("SLUG " + params.slug + " ARTICLES " + articles)
   const categories = await fetchAPI("/categories");
 
   return {
