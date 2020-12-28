@@ -8,7 +8,6 @@ import { getStrapiMedia } from "../../lib/media";
 
 const Article = ({ article, categories }) => {
   const imageUrl = getStrapiMedia(article.image);
-
   const seo = {
     metaTitle: article.title,
     metaDescription: article.description,
@@ -62,14 +61,13 @@ const Article = ({ article, categories }) => {
 
 export async function getStaticPaths() {
   const articles = await fetchAPI("/articles");
-
   return {
     paths: articles.map((article) => ({
       params: {
         slug: article.slug,
       },
     })),
-    fallback: true,
+    fallback: 'blocking',
   };
 }
 
@@ -81,8 +79,11 @@ export async function getStaticProps({ params }) {
   const categories = await fetchAPI("/categories");
 
   return {
-    props: { article: articles[0], categories },
-    revalidate: 1,
+    props: {
+      article: articles != null && articles.length > 0 ? articles[0] : null,
+      categories,
+    },
+    revalidate: 5,
   };
 }
 
